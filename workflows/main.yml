@@ -1,15 +1,47 @@
+# name: Counter
+# on:
+#   push:
+#     branches:
+#       - master
+#   schedule:
+#     - cron: '1 * * * *'
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v1
+#     - name: Running
+#       run: |
+#         echo "Running!"
+
 name: Counter
+
 on:
   push:
     branches:
       - master
   schedule:
-    - cron: '1 * * * *'
+    - cron: "1 * * * *"  # Runs every day at midnight UTC
+  # workflow_dispatch:  # Allows manual trigger
+
 jobs:
+  # scrape:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Running
-      run: |
-        echo "Running!"
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+
+      - name: Install Dependencies
+        run: pip install tqdm
+
+      - name: Run Counter
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scraper.py
