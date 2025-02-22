@@ -34,7 +34,7 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-          
+
       - name: Install Dependencies
         run: pip install tqdm
 
@@ -42,7 +42,7 @@ jobs:
         run: python "sched.py"
 
       - name: Upload Output File
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: scraped-data
           path: data/output.txt
