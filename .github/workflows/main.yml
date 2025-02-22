@@ -21,7 +21,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: "1 * * * *"  # Runs every day at midnight UTC
+    - cron: "1 * * * *"  # Runs every 1 minute
   # workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -46,8 +46,16 @@ jobs:
         #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: python "sched.py"
 
-      - name: Upload Output File
-        uses: actions/upload-artifact@v3
-        with:
-          name: scraped-data
-          path: data/output.txt
+      # - name: Upload Output File
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: scraped-data
+      #     path: data/output.txt
+
+      - name: Commit and push updated scraoed data
+              run: |
+                git config user.name "github-actions"
+                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                git add scraped-data.txt
+                git commit -m "Update scraped data file"
+                git push
