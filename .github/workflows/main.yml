@@ -44,4 +44,10 @@ jobs:
         # env:
         #   YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python "./../sched.py"
+        run: python "sched.py"
+
+      - name: Upload Output File
+        uses: actions/upload-artifact@v3
+        with:
+          name: scraped-data
+          path: data/output.txt
