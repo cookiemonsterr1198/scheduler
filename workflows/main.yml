@@ -41,7 +41,7 @@ jobs:
         run: pip install tqdm
 
       - name: Run Counter
-        env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scraper.py
+        # env:
+        #   YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python "./../sched.py"
