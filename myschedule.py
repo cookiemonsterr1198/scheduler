@@ -14,5 +14,5 @@ kalimat = "{} - Your random number is {}\n".format(now, num)
 # with open('file-out.txt','w') as f:
 #     f.write(kalimat)
 
-df = pd.DataFrame({"timestamps": now, "Num": num, "Sentence:": kalimat})
+df = pd.DataFrame([{"timestamps": now, "Num": num, "Sentence:": kalimat}])
 df.to_excel("Youtube_{}".format(now))
