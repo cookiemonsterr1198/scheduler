@@ -4,6 +4,5 @@ from tqdm import tqdm
 
 now = datetime.now()
 num = random.randint(1,101)
-with open('rand.txt','w') as f:
-    for i in tqdm(range(0,10)): 
-        f.write('{} - Your random number is {}\n'.format(now, num))
+with open('data/rand.txt','w') as f:
+    f.write('{} - Your random number is {}\n'.format(now, num))

@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: my-artifact
-          path: file-out.txt
+          path: data/file-out.txt
       # - name: Download All Artifacts
       #   uses: actions/download-artifact@v4
       #   with:
