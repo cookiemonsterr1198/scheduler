@@ -8,6 +8,7 @@ import os
 
 now = datetime.now()
 num = random.randint(1,101)
+kalimat = '{} - Your random number is {}\n'.format(now, num)
 
 with open('file-out.txt','w') as f:
-    f.write('{} - Your random number is {}\n'.format(now, num))
+    f.write(kalimat)
