@@ -15,4 +15,4 @@ kalimat = "{} - Your random number is {}\n".format(now, num)
 #     f.write(kalimat)
 
 df = pd.DataFrame([{"timestamps": now, "Num": num, "Sentence:": kalimat}])
-df.to_excel("Youtube_{}".format(now))
+df.to_excel("Youtube-Out.xlsx")
