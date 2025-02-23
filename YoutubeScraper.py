@@ -191,7 +191,7 @@ class Youtube:
         print("Done.")
     
     # Additional Functions
-    def convert_timezone(prop):
+    def convert_timezone(self, prop):
         from_zone = tz.gettz("UTC")
         to_zone = tz.gettz("Asia/Jakarta")
         
@@ -208,6 +208,7 @@ class Youtube:
         def getPublishedAt(prop):
             if prop:
                 publishedAt_utc = datetime.strptime(prop, "%Y-%m-%dT%H:%M:%SZ")
+                print(publishedAt_utc)
                 return self.convert_timezone(publishedAt_utc)
             else:
                 return None
