@@ -58,85 +58,85 @@ def get_channel_id(username):
 # Get!
 channel_id = get_channel_id(USERNAME)
 
-# # Step 2: Get All Videos Id from Playlist
-# def get_video_from_playlist(channel_id):
-#   video_ids = []
-#   ids = []
+# Step 2: Get All Videos Id from Playlist
+def get_video_from_playlist(channel_id):
+  video_ids = []
+  ids = []
 
-#   print("Get All Videos Id from Playlist..")
-#   # Get All Playlist
-#   request_playlist = youtube.playlists().list(
-#                 part='snippet',
-#                 channelId=channel_id,
-#                 maxResults=50
-#             )
-#   while request_playlist:
-#       response_playlist = request_playlist.execute()
-#       # Process the current Playlist
-#       for playlist in tqdm(response_playlist['items']):
-#         if 'youtube#playlist' in playlist['kind']:
-#           playlist_id = playlist['id']
-#           # GET ALL VIDEOS FROM PLAYLIST ID
-#           result = youtube.playlistItems().list(
-#                       part='snippet',playlistId=playlist_id, maxResults=50
-#                       ).execute()
-#           while result:
-#             for item in result['items']:
-#               video_id = item['snippet']['resourceId']['videoId']
-#               ids.append(video_id)
-#               video_ids.append({"videoId":video_id,"playlistId":playlist_id, "playlistTitle":playlist['snippet']['title']})
-#             # Check if there is a next page of videos on playlistid and get the next set of results
-#             if result.get('nextpageToken'):
-#               result = youtube.playlistItems().list(
-#                           part='snippet',playlistId=playlist_id,
-#                           maxResults=50, pageToken=result.get('nextPageToken')
-#                       )
-#             else:
-#               break
+  print("Get All Videos Id from Playlist..")
+  # Get All Playlist
+  request_playlist = youtube.playlists().list(
+                part='snippet',
+                channelId=channel_id,
+                maxResults=50
+            )
+  while request_playlist:
+      response_playlist = request_playlist.execute()
+      # Process the current Playlist
+      for playlist in tqdm(response_playlist['items']):
+        if 'youtube#playlist' in playlist['kind']:
+          playlist_id = playlist['id']
+          # GET ALL VIDEOS FROM PLAYLIST ID
+          result = youtube.playlistItems().list(
+                      part='snippet',playlistId=playlist_id, maxResults=50
+                      ).execute()
+          while result:
+            for item in result['items']:
+              video_id = item['snippet']['resourceId']['videoId']
+              ids.append(video_id)
+              video_ids.append({"videoId":video_id,"playlistId":playlist_id, "playlistTitle":playlist['snippet']['title']})
+            # Check if there is a next page of videos on playlistid and get the next set of results
+            if result.get('nextpageToken'):
+              result = youtube.playlistItems().list(
+                          part='snippet',playlistId=playlist_id,
+                          maxResults=50, pageToken=result.get('nextPageToken')
+                      )
+            else:
+              break
 
-#       # Check if there is a next page and get the next set of results
-#       if response_playlist.get('nextPageToken'):
-#         request_playlist = youtube.search().list(
-#             part='snippet',
-#             channelId=channel_id,
-#             maxResults=50,
-#             order='date',
-#             pageToken=response_playlist.get('nextPageToken')  # Get next page token if it exists
-#         )
-#       else:
-#         break
-#   return ids, video_ids
+      # Check if there is a next page and get the next set of results
+      if response_playlist.get('nextPageToken'):
+        request_playlist = youtube.search().list(
+            part='snippet',
+            channelId=channel_id,
+            maxResults=50,
+            order='date',
+            pageToken=response_playlist.get('nextPageToken')  # Get next page token if it exists
+        )
+      else:
+        break
+  return ids, video_ids
 
-# # Step 3: Get the list of video IDs from the channel
-# def get_video_ids(channel_id):
-#   video_ids = []
+# Step 3: Get the list of video IDs from the channel
+def get_video_ids(channel_id):
+  video_ids = []
 
-#   print("Get the list of video IDs from the channel...")
-#   request = youtube.search().list(
-#     part='snippet',
-#     channelId=channel_id,
-#     maxResults=50,  # You can get up to 50 results per request
-#     order='date'  # Sort by upload date
-#   )
-#   while request:
-#       response = request.execute() #trigger
-#       for item in response['items']:
-#         if 'youtube#video' in item['id']['kind']:
-#           video_id = item['id']['videoId']
-#           if video_id not in video_ids: video_ids.append(video_id)
-#       # Check if there is a next page and get the next set of results
-#       if response.get('nextPageToken') :
-#         request = youtube.search().list(
-#             part='snippet',
-#             channelId=channel_id,
-#             maxResults=50,
-#             order='date',
-#             pageToken=response.get('nextPageToken')  # Get next page token if it exists
-#         )
-#       else :
-#         break
-#   print("Done.")
-#   return video_ids
+  print("Get the list of video IDs from the channel...")
+  request = youtube.search().list(
+    part='snippet',
+    channelId=channel_id,
+    maxResults=50,  # You can get up to 50 results per request
+    order='date'  # Sort by upload date
+  )
+  while request:
+      response = request.execute() #trigger
+      for item in response['items']:
+        if 'youtube#video' in item['id']['kind']:
+          video_id = item['id']['videoId']
+          if video_id not in video_ids: video_ids.append(video_id)
+      # Check if there is a next page and get the next set of results
+      if response.get('nextPageToken') :
+        request = youtube.search().list(
+            part='snippet',
+            channelId=channel_id,
+            maxResults=50,
+            order='date',
+            pageToken=response.get('nextPageToken')  # Get next page token if it exists
+        )
+      else :
+        break
+  print("Done.")
+  return video_ids
 
 
 # Step 4: Get statistics (views, likes, comments) for each video
@@ -196,30 +196,28 @@ def get_video_stats(video_id):
   return
 
 # Run!
-# # Step 2
-# ids, video_ids = get_video_from_playlist(channel_id)
+# Step 2
+ids, video_ids = get_video_from_playlist(channel_id)
 
-# # Step 3
-# ids2 = get_video_ids(channel_id)
+# Step 3
+ids2 = get_video_ids(channel_id)
 
-# details = []
-# # Step 4
-# print("Get statistics (views, likes, comments) for each video..")
-# for id in tqdm(video_ids):
-#   # print(id)
-#   stat = get_video_stats(id)
-#   if stat:
-#     details.append(stat)
-#     save_to_mongo(stat)
-# for id2 in tqdm(ids2):
-#   if id2 not in ids:
-#     stat2 = get_video_stats(id2)
-#     if stat2:
-#       details.append(stat2)
-#     save_to_mongo(stat2)
-# details
-
-details = [get_video_stats('91h07_ZnnK4')]
+details = []
+# Step 4
+print("Get statistics (views, likes, comments) for each video..")
+for id in tqdm(video_ids):
+  # print(id)
+  stat = get_video_stats(id)
+  if stat:
+    details.append(stat)
+    save_to_mongo(stat)
+for id2 in tqdm(ids2):
+  if id2 not in ids:
+    stat2 = get_video_stats(id2)
+    if stat2:
+      details.append(stat2)
+    save_to_mongo(stat2)
+details
 
 # Export It to .csv
 df = pd.DataFrame(details)
