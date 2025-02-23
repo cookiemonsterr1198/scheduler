@@ -74,10 +74,11 @@ class Youtube:
         self.USERNAME = USERNAME
         self.YOUTUBE_API_SERVICE_NAME = YOUTUBE_API_SERVICE_NAME
         self.YOUTUBE_API_VERSION = YOUTUBE_API_VERSION
+        self.build()
         self.get_channel_id()
 
     # Method: Initialize
-    def Build(self):
+    def build(self):
         self.youtube = build(
             self.YOUTUBE_API_SERVICE_NAME,
             self.YOUTUBE_API_VERSION,
