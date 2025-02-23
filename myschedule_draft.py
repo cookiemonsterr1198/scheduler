@@ -191,7 +191,7 @@ def get_video_stats(video_id):
         'likeCount': get_int(vd['items'][0]['statistics'].get('likeCount')),
         'favoriteCount': get_int(vd['items'][0]['statistics'].get('favoriteCount')),
         'commentCount': get_int(vd['items'][0]['statistics'].get('commentCount')),
-        'scrapedAt': datetime.now().strftime('%Y-%m-%d %H:%M:%D') 
+        'scrapedAt': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
       }
   return
 

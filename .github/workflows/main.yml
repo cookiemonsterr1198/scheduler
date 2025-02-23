@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Counter
+name: Scheduler
 
 # Controls when the workflow will run
 on:
@@ -10,7 +10,7 @@ on:
   pull_request:
     branches: [ "main" ]
   schedule:
-    - cron: "*/15 * * * *"  # Runs every 15 minute
+    - cron: "*/45 */4 * * *"  # Runs every 15 minute
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     
-    # Permissions:
+    # Permissions
     permissions:
       contents: write
 
@@ -45,7 +45,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run Counter
-        run: python "myschedule.py"
+        run: python "YoutubeScraper.py"
 
       # - name: Upload Artifact
       #   uses: actions/upload-artifact@v4
@@ -66,31 +66,3 @@ jobs:
           git add Youtube-Out.csv
           git commit -m "Update file"
           git push
-
-  # upload:
-  #   strategy:
-  #     matrix:
-  #       runs-on: [ubuntu-latest] #[ubuntu-latest, macos-latest, windows-latest]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name : Build
-  #     run: 
-  #   - name: Create a File
-  #     run: file-out.txt
-  #   - name: Upload Artifact
-  #     uses: actions/upload-artifact@v4
-  #     with:
-  #       name: my-artifact
-  #       path: file-out.txt
-  # download:
-  #   needs: upload
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Download All Artifacts
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       path: my-artifact
-  #       pattern: my-artifact-*
-  #       merge-multiple: true
-  #   - run: ls -R my-artifact
-
