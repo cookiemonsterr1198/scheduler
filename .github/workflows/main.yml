@@ -39,7 +39,7 @@ jobs:
         run: pip install tqdm
 
       - name: Run Counter
-        run: python "sched.py"
+        run: python "myschedule.py"
 
       # - name: Create a File
       #   run: echo > file-out.txt
