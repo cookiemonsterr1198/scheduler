@@ -158,8 +158,8 @@ class Youtube:
                 break
 
     # Method 3: Get the list of video IDs from the channel
-    def get_video_ids(self):
-        self.video_ids = []
+    def get_video_from_user(self):
+        self.video_ids2 = []
 
         print("Get the list of video IDs from the channel...")
         request = self.youtube.search().list(
@@ -174,7 +174,7 @@ class Youtube:
                 if "youtube#video" in item["id"]["kind"]:
                     video_id = item["id"]["videoId"]
                     if video_id not in self.video_ids:
-                        self.video_ids.append(video_id)
+                        self.video_ids2.append(video_id)
             # Check if there is a next page and get the next set of results
             if response.get("nextPageToken"):
                 request = self.youtube.search().list(
@@ -253,6 +253,7 @@ class Youtube:
       details = []
       
       # Run Method 2:
+      self.get_video_from_playlist()
       for id in tqdm(self.video_ids):
         # print(id)
         stat = self.get_video_stats(id)
@@ -260,14 +261,15 @@ class Youtube:
           details.append(stat)
       
       # Run Method 3:
-      ids2 = self.get_video_ids(self.user_id)
-      for id2 in tqdm(ids2):
+      self.get_video_from_user()
+      for id2 in tqdm(self.video_ids2):
         if id2 not in self.ids:
           stat2 = self.get_video_stats(id2)
           if stat2:
             details.append(stat2)
             
       return details
+
 
 # Initialize MongoDB
 mongoDB = MongoDB(MONGO_USERNAME, MONGO_PASSWORD, DATABASE_NAME, COLLECTION_NAME)
@@ -276,8 +278,6 @@ mongoDB.clear_mongo()
 
 # Initialize Youtube
 youtube = Youtube(API_KEY, USERNAME, YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
-youtube.get_video_from_playlist()
-youtube.get_video_ids()
 data = youtube.run_statistics()
 mongoDB.store_mongo(data) # store to mongoDB
 
