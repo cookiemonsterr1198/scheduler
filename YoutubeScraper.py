@@ -274,7 +274,7 @@ mongoDB.connect_mongo()
 mongoDB.clear_mongo()
 
 # Initialize Youtube
-youtube = Youtube(USERNAME, YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
+youtube = Youtube(API_KEY, USERNAME, YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
 youtube.get_video_from_playlist()
 youtube.get_video_ids()
 data = youtube.run_statistics()
