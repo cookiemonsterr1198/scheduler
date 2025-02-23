@@ -57,7 +57,7 @@ API_KEYS = [
     "AIzaSyBsrQfvijz61DH5IoUF12uPoQ4fPin71As",
     "AIzaSyAeZw8emwI7Ux0D8V-ueLvmUMrrSZyFA_k",
 ]
-API_KEY = API_KEYS[0]
+API_KEY = API_KEYS[1]
 USERNAME = "BPSumut"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
@@ -189,6 +189,15 @@ class Youtube:
             else:
                 break
         print("Done.")
+    
+    # Additional Functions
+    def convert_timezone(prop):
+        from_zone = tz.gettz("UTC")
+        to_zone = tz.gettz("Asia/Jakarta")
+        
+        timestamp_utc = prop.replace(tzinfo=from_zone)
+        timestamp = timestamp_utc.astimezone(to_zone)
+        return timestamp
 
     # Method 4: Get statistics (views, likes, comments) for each video
     def get_video_stats(self, video_id):
@@ -198,12 +207,8 @@ class Youtube:
 
         def getPublishedAt(prop):
             if prop:
-                from_zone = tz.gettz("UTC")
-                to_zone = tz.gettz("Asia/Jakarta")
                 publishedAt_utc = datetime.strptime(prop, "%Y-%m-%dT%H:%M:%SZ")
-                publishedAt_utc = publishedAt_utc.replace(tzinfo=from_zone)
-                publishedAt = publishedAt_utc.astimezone(to_zone)
-                return publishedAt
+                return self.convert_timezone(publishedAt_utc)
             else:
                 return None
 
@@ -243,32 +248,32 @@ class Youtube:
                     "commentCount": to_int(
                         vd["items"][0]["statistics"].get("commentCount")
                     ),
-                    "scrapedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "scrapedAt": self.convert_timezone(datetime.now()).strftime("%Y-%m-%d %H:%M:%S"),
                 }
-                
+
     # Method : Run!
     def run_statistics(self):
-      
-      print("Get statistics (views, likes, comments) for each video..")
-      details = []
-      
-      # Run Method 2:
-      self.get_video_from_playlist()
-      for id in tqdm(self.video_ids):
-        # print(id)
-        stat = self.get_video_stats(id)
-        if stat:
-          details.append(stat)
-      
-      # Run Method 3:
-      self.get_video_from_user()
-      for id2 in tqdm(self.video_ids2):
-        if id2 not in self.ids:
-          stat2 = self.get_video_stats(id2)
-          if stat2:
-            details.append(stat2)
-            
-      return details
+
+        print("Get statistics (views, likes, comments) for each video..")
+        details = []
+
+        # Run Method 2:
+        self.get_video_from_playlist()
+        for id in tqdm(self.video_ids):
+            # print(id)
+            stat = self.get_video_stats(id)
+            if stat:
+                details.append(stat)
+
+        # Run Method 3:
+        self.get_video_from_user()
+        for id2 in tqdm(self.video_ids2):
+            if id2 not in self.ids:
+                stat2 = self.get_video_stats(id2)
+                if stat2:
+                    details.append(stat2)
+
+        return details
 
 
 # Initialize MongoDB
@@ -279,7 +284,7 @@ mongoDB.clear_mongo()
 # Initialize Youtube
 youtube = Youtube(API_KEY, USERNAME, YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION)
 data = youtube.run_statistics()
-mongoDB.store_mongo(data) # store to mongoDB
+mongoDB.store_mongo(data)  # store to mongoDB
 
 # Export Data to .csv
 df = pd.DataFrame(data)
