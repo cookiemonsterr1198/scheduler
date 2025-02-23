@@ -41,28 +41,38 @@ jobs:
       - name: Run Counter
         run: python "sched.py"
 
-  upload:
-    strategy:
-      matrix:
-        runs-on: [ubuntu-latest] #[ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ubuntu-latest
-    steps:
-    - name: Create a File
-      run: file-out.txt
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: my-artifact
-        path: file-out.txt
-  download:
-    needs: upload
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download All Artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: my-artifact
-        pattern: my-artifact-*
-        merge-multiple: true
-    - run: ls -R my-artifact
+      - name: Create a File
+        run: echo > file-out.txt
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: file-out.txt
+
+  # upload:
+  #   strategy:
+  #     matrix:
+  #       runs-on: [ubuntu-latest] #[ubuntu-latest, macos-latest, windows-latest]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name : Build
+  #     run: 
+  #   - name: Create a File
+  #     run: file-out.txt
+  #   - name: Upload Artifact
+  #     uses: actions/upload-artifact@v4
+  #     with:
+  #       name: my-artifact
+  #       path: file-out.txt
+  # download:
+  #   needs: upload
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Download All Artifacts
+  #     uses: actions/download-artifact@v4
+  #     with:
+  #       path: my-artifact
+  #       pattern: my-artifact-*
+  #       merge-multiple: true
+  #   - run: ls -R my-artifact
 
