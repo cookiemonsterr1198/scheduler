@@ -57,7 +57,7 @@ API_KEYS = [
     "AIzaSyBsrQfvijz61DH5IoUF12uPoQ4fPin71As",
     "AIzaSyAeZw8emwI7Ux0D8V-ueLvmUMrrSZyFA_k",
 ]
-API_KEY = API_KEYS[1]
+API_KEY = API_KEYS[2]
 USERNAME = "BPSumut"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
@@ -208,7 +208,6 @@ class Youtube:
         def getPublishedAt(prop):
             if prop:
                 publishedAt_utc = datetime.strptime(prop, "%Y-%m-%dT%H:%M:%SZ")
-                print(publishedAt_utc)
                 return self.convert_timezone(publishedAt_utc)
             else:
                 return None
