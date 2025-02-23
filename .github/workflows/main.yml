@@ -42,7 +42,7 @@ jobs:
           echo test, and deploy your project.
 
       - name: Install Dependencies
-        run: pip install tqdm
+        run: pip install -r requirements.txt
 
       - name: Run Counter
         run: python "myschedule.py"
