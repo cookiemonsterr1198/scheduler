@@ -9,6 +9,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    - cron: "1 * * * *"  # Runs every 1 minute
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,18 +43,25 @@ jobs:
       - name: Run Counter
         run: python "myschedule.py"
 
-      # - name: Create a File
-      #   run: echo > file-out.txt
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: my-artifact
-          path: data/file-out.txt
+      # - name: Upload Artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: my-artifact
+      #     path: data/file-out.txt
+
       # - name: Download All Artifacts
       #   uses: actions/download-artifact@v4
       #   with:
       #     path: my-artifact
-      #     pattern: my-artifact-*
+      #     pattern: my-artifact*
+
+      - name: Commit and push updated proxies
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add file-out.txt
+          git commit -m "Update file"
+          git push
 
   # upload:
   #   strategy:
