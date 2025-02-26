@@ -10,7 +10,7 @@ on:
   pull_request:
     branches: [ "main" ]
   schedule:
-    - cron: "*/45 */4 * * *"  # Runs every 15 minute
+    - cron: "*/45 */4 * * *"  # Runs every 4h 45 minute
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

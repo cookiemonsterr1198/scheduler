@@ -234,6 +234,7 @@ class Youtube:
                     "videoId": videoId,
                     "playlistId": playlistId,
                     "playlistTitle": playlistTitle,
+                    "channelUsername" : self.USERNAME,
                     "channelId": channelId,
                     "channelTitle": vd["items"][0]["snippet"].get("channelTitle"),
                     "title": vd["items"][0]["snippet"].get("title"),
